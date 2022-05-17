@@ -81,24 +81,6 @@ bool Serial::OnStartUp()
   int max_retries = 5;
   double dSerialPeriod = 1.0;
 
-  list<string> sParams;
-  m_MissionReader.EnableVerbatimQuoting(false);
-  if(m_MissionReader.GetConfiguration(GetAppName(), sParams)) {
-    list<string>::iterator p;
-    for(p=sParams.begin(); p!=sParams.end(); p++) {
-      string original_line = *p;
-      string param = stripBlankEnds(toupper(biteString(*p, '=')));
-      string value = stripBlankEnds(*p);
-      
-      if(param == "Serial_PERIOD") {
-        dSerialPeriod = atof(value.c_str());
-      }
-      else if(param == "MAX_RETRIES") {
-        max_retries = atoi(value.c_str());
-      }
-    }
-  }
-  
   m_timewarp = GetMOOSTimeWarp();
 
   AddMOOSVariable(GetAppName()+"_IN", "", GetAppName()+"_IN", dSerialPeriod);
